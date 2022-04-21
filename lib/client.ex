@@ -10,6 +10,27 @@ defmodule ExMicrosoftBot.Client do
   @type error_type :: {:error, integer, String.t()}
   @http_timeout Application.get_env(:ex_microsoftbot, :http_timeout)
 
+  def denullify_request_body(%_{} = struct),
+    do: struct |> Map.from_struct() |> denullify_request_body()
+
+  def denullify_request_body(%{} = map),
+    do:
+      :maps.filter(fn _, v -> v != nil end, map)
+      |> Enum.map(&denullify_request_body/1)
+      |> Enum.into(%{})
+
+  def denullify_request_body(list) when is_list(list),
+    do: Enum.map(list, &denullify_request_body/1)
+
+  def denullify_request_body(tuple) when is_tuple(tuple),
+    do:
+      tuple
+      |> Tuple.to_list()
+      |> denullify_request_body()
+      |> List.to_tuple()
+
+  def denullify_request_body(value), do: value
+
   def deserialize_response(%HTTPotion.Response{status_code: sc, body: ""}, _deserialize_fn)
       when sc >= 200 and sc < 300 do
     {:ok, ""}

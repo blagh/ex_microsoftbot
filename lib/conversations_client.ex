@@ -2,9 +2,8 @@ defmodule ExMicrosoftBot.Client.Conversations do
   @moduledoc """
   This module provides the functions for conversations
   """
-
   import ExMicrosoftBot.Client,
-    only: [authed_req_options: 1, authed_req_options: 2, deserialize_response: 2]
+    only: [authed_req_options: 1, authed_req_options: 2, deserialize_response: 2, denullify_request_body: 1]
 
   alias ExMicrosoftBot.Models
   alias ExMicrosoftBot.Client
@@ -16,8 +15,9 @@ defmodule ExMicrosoftBot.Client.Conversations do
           {:ok, Models.ConversationResourceResponse.t()} | Client.error_type()
   def create_conversation(service_url, %Models.ConversationParameters{} = params) do
     endpoint = conversations_endpoint(service_url)
+    body = denullify_request_body(params)
 
-    HTTPotion.post(endpoint, authed_req_options(endpoint, body: Poison.encode!(params)))
+    HTTPotion.post(endpoint, authed_req_options(endpoint, body: Poison.encode!(body)))
     |> deserialize_response(&Models.ConversationResourceResponse.parse/1)
   end
 
@@ -36,8 +36,9 @@ defmodule ExMicrosoftBot.Client.Conversations do
           {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def send_to_conversation(service_url, conversation_id, %Models.Activity{} = activity) do
     api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/activities"
+    body = denullify_request_body(activity)
 
-    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(activity)))
+    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(body)))
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -61,8 +62,9 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def reply_to_activity(service_url, conversation_id, activity_id, %Models.Activity{} = activity) do
     api_endpoint =
       "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{activity_id}"
+    body = denullify_request_body(activity)
 
-    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(activity)))
+    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(body)))
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -109,10 +111,11 @@ defmodule ExMicrosoftBot.Client.Conversations do
           {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def upload_attachment(service_url, conversation_id, %Models.AttachmentData{} = attachment) do
     api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/attachments"
+    body = denullify_request_body(attachment)
 
     HTTPotion.post(
       api_endpoint,
-      authed_req_options(api_endpoint, body: Poison.encode!(attachment))
+      authed_req_options(api_endpoint, body: Poison.encode!(body))
     )
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
@@ -133,9 +136,10 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def update_activity(service_url, conversation_id, %Models.Activity{id: activity_id} = activity) do
     api_endpoint =
       "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{activity_id}"
+    body = denullify_request_body(activity)
 
     api_endpoint
-    |> HTTPotion.put(authed_req_options(api_endpoint, body: Poison.encode!(activity)))
+    |> HTTPotion.put(authed_req_options(api_endpoint, body: Poison.encode!(body)))
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
