@@ -80,7 +80,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
       - compiler_warnings:
           context:
             - PagerDuty
@@ -88,7 +88,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
       - test:
           context:
             - PagerDuty
@@ -96,4 +96,4 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
