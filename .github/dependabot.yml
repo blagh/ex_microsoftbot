@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: "mix"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: "mix prod"
+      prefix-development: "mix dev"
+      include: "scope"
+    target-branch: "main"
+    labels:
+      - "dependabot"
+      - "elixir"
+    pull-request-branch-name:
+      separator: "-"
