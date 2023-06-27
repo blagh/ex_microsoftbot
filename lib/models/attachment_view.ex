@@ -7,12 +7,12 @@ defmodule ExMicrosoftBot.Models.AttachmentView do
   defstruct [:viewId, :size]
 
   @type t :: %ExMicrosoftBot.Models.AttachmentView{
-    viewId: String.t,
-    size: integer,
-  }
+          viewId: String.t(),
+          size: integer
+        }
 
   @doc false
   def decoding_map() do
-    %ExMicrosoftBot.Models.AttachmentView {}
+    %ExMicrosoftBot.Models.AttachmentView{}
   end
 end

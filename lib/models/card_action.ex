@@ -7,10 +7,10 @@ defmodule ExMicrosoftBot.Models.CardAction do
   defstruct [:type, :title, :value]
 
   @type t :: %ExMicrosoftBot.Models.CardAction{
-    type: String.t,
-    title: String.t,
-    value: String.t
-  }
+          type: String.t(),
+          title: String.t(),
+          value: String.t()
+        }
 
   @doc false
   def decoding_map() do

@@ -23,18 +23,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
         {:ok, body, conn} = read_body(conn)
 
         assert body ==
-                 "{\"value\":null,\"type\":\"text\",\"topicName\":null," <>
-                   "\"timestamp\":null,\"textFormat\":null,\"text\":\"ohai\"," <>
-                   "\"summary\":null,\"suggestedActions\":null,\"speak\":null," <>
-                   "\"serviceUrl\":null,\"replyToId\":null," <>
-                   "\"recipient\":{" <>
-                   "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
-                   "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
-                   "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
-                   "\"inputHint\":null,\"id\":null,\"historyDisclosed\":null,\"from\":null," <>
-                   "\"entities\":null,\"conversation\":null,\"code\":null,\"channelId\":null," <>
-                   "\"channelData\":null,\"attachments\":null,\"attachmentLayout\":null," <>
-                   "\"action\":null}"
+                 "{\"type\":\"text\",\"text\":\"ohai\",\"recipient\":{\"name\":\"Jonas\",\"id\":55}}"
 
         resp(conn, 200, "{\"id\":\"12345\"}")
       end)
@@ -69,18 +58,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
         {:ok, body, conn} = read_body(conn)
 
         assert body ==
-                 "{\"value\":null,\"type\":\"text\",\"topicName\":null," <>
-                   "\"timestamp\":null,\"textFormat\":null,\"text\":\"ohai\"," <>
-                   "\"summary\":null,\"suggestedActions\":null,\"speak\":null," <>
-                   "\"serviceUrl\":null,\"replyToId\":null," <>
-                   "\"recipient\":{" <>
-                   "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
-                   "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
-                   "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
-                   "\"inputHint\":null,\"id\":\"12345\",\"historyDisclosed\":null," <>
-                   "\"from\":null,\"entities\":null,\"conversation\":null," <>
-                   "\"code\":null,\"channelId\":null,\"channelData\":null," <>
-                   "\"attachments\":null,\"attachmentLayout\":null,\"action\":null}"
+                 "{\"type\":\"text\",\"text\":\"ohai\",\"recipient\":{\"name\":\"Jonas\",\"id\":55},\"id\":\"12345\"}"
 
         resp(conn, 200, "{\"id\":\"12345\"}")
       end)

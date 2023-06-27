@@ -20,7 +20,7 @@ defmodule ExMicrosoftBot.Models.ChannelAcountTest do
 
       assert channel_account.id == "123456789"
       assert channel_account.name == "Some Name"
-      assert aad_object_id == "00000000-0000-0000-0000-000000000000"
+      assert channel_account.aadObjectId == "00000000-0000-0000-0000-000000000000"
       assert channel_account.objectId == "a53d7526-d0e9-436f-9443-ddb317ef3608"
       assert channel_account.givenName == "Some"
       assert channel_account.surname == "Name"

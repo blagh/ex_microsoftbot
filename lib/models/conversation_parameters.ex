@@ -7,13 +7,13 @@ defmodule ExMicrosoftBot.Models.ConversationParameters do
   defstruct [:isGroup, :bot, :members, :topicName, :activity, :channelData]
 
   @type t :: %ExMicrosoftBot.Models.ConversationParameters{
-    isGroup: boolean,
-    bot: ExMicrosoftBot.Models.ChannelAccount.t,
-    members: [ExMicrosoftBot.Models.ChannelAccount.t],
-    topicName: String.t,
-    activity: ExMicrosoftBot.Models.Activity.t,
-    channelData: map
-  }
+          isGroup: boolean,
+          bot: ExMicrosoftBot.Models.ChannelAccount.t(),
+          members: [ExMicrosoftBot.Models.ChannelAccount.t()],
+          topicName: String.t(),
+          activity: ExMicrosoftBot.Models.Activity.t(),
+          channelData: map
+        }
 
   @doc false
   def decoding_map() do

@@ -5,8 +5,8 @@ defmodule ExMicrosoftBot.Models.AuthData do
 
   defstruct [:app_id, :app_password]
 
-  @type t :: %ExMicrosoftBot.Models.AuthData {
-    app_id: String.t,
-    app_password: String.t
-  }
+  @type t :: %ExMicrosoftBot.Models.AuthData{
+          app_id: String.t(),
+          app_password: String.t()
+        }
 end

@@ -7,10 +7,10 @@ defmodule ExMicrosoftBot.Models.Entity do
   defstruct [:type, :name, :supportsDisplay]
 
   @type t :: %ExMicrosoftBot.Models.Entity{
-    type: String.t,
-    name: String.t,
-    supportsDisplay: boolean,
-  }
+          type: String.t(),
+          name: String.t(),
+          supportsDisplay: boolean
+        }
 
   @doc false
   def decoding_map() do

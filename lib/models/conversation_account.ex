@@ -7,11 +7,11 @@ defmodule ExMicrosoftBot.Models.ConversationAccount do
   defstruct [:isGroup, :id, :name, :conversationType]
 
   @type t :: %ExMicrosoftBot.Models.ConversationAccount{
-    isGroup: boolean,
-    id: String.t,
-    name: String.t,
-    conversationType: String.t
-  }
+          isGroup: boolean,
+          id: String.t(),
+          name: String.t(),
+          conversationType: String.t()
+        }
 
   @doc false
   def decoding_map() do
