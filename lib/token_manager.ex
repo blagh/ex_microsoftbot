@@ -95,6 +95,8 @@ defmodule ExMicrosoftBot.TokenManager do
   defp refresh_token(%Models.AuthData{} = auth_data) do
     case get_token_from_service(auth_data) do
       {:ok, token_response} ->
+        StatsOwl.increment_success("msbot_api.request.count", tags: ["operation:refresh_token"])
+
         {:ok,
          %{
            token: Map.get(token_response, "access_token"),
