@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :ex_microsoftbot,
   app_id: "BOT_APP_ID",

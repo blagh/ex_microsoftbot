@@ -11,6 +11,7 @@ defmodule ExMicrosoftBot.Mixfile do
       start_permanent: Mix.env() == :prod,
       package: package(),
       deps: deps(),
+      test_coverage: [tool: ExCoveralls],
       docs: [
         main: "readme",
         extras: ["README.md", "CHANGELOG.md"]
@@ -50,7 +51,7 @@ defmodule ExMicrosoftBot.Mixfile do
   end
 
   defp applications(env) when env in [:dev, :prod] do
-    [:logger, :jose, :tzdata, :timex, :poison]
+    [:logger, :jose, :tzdata, :timex, :poison, :stats_owl, :httpoison]
   end
 
   defp applications(:test) do
@@ -59,6 +60,8 @@ defmodule ExMicrosoftBot.Mixfile do
 
   defp deps do
     [
+      {:stats_owl, git: "git@github.com:PagerDuty/stats-owl.git", tag: "2.3.0"},
+      {:excoveralls, "~>0.16"},
       {:httpoison, "~> 1.7"},
       {:poison, "~> 4.0"},
       {:jose, "~> 1.7"},
@@ -67,9 +70,10 @@ defmodule ExMicrosoftBot.Mixfile do
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.19", only: [:dev]},
-      {:bypass, "~> 1.0", only: :test},
+      {:bypass, "~> 2.1", only: :test},
       # Required by bypass, incompatible with OTP 22 since 2.8.0:
-      {:cowboy, "< 2.8.0", only: :test}
+      {:cowboy, "~> 2.10.0", only: :test},
+      {:mimic, "~> 1.7", only: [:dev, :test]}
     ]
   end
 end

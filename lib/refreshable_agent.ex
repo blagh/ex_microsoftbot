@@ -66,9 +66,7 @@ defmodule ExMicrosoftBot.RefreshableAgent do
         updated_mod_state = get_refreshed_state(args, old_state)
 
         Logger.debug(
-          "RefreshableAgent.get_refreshed_state_and_schedule_refresh/2 -> #{
-            inspect(updated_mod_state)
-          }"
+          "RefreshableAgent.get_refreshed_state_and_schedule_refresh/2 -> #{inspect(updated_mod_state)}"
         )
 
         timer_ref =

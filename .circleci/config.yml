@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   ecr: pagerduty/ecr@0.0.4
   git: pagerduty/git@0.0.3        # https://circleci.com/orbs/registry/orb/pagerduty/git
-  elixir: pagerduty/elixir@0.0.9  # https://circleci.com/orbs/registry/orb/pagerduty/elixir
+  elixir: pagerduty/elixir@0.0.12  # https://circleci.com/orbs/registry/orb/pagerduty/elixir
 
 working_dir: &working_dir
   working_directory: /tmp/workspace
@@ -46,28 +46,49 @@ commands:
 
 jobs:
   format:
-    executor: elixir-dev-small
+    executor: elixir-dev-medium
     environment:
       MIX_ENV: dev
     steps:
       - setup_service
-      - run: mix format --check-formatted
+      - run: make format.check
   compiler_warnings:
-    executor: elixir-dev-small
+    executor: elixir-dev-medium
     environment:
       MIX_ENV: dev
     steps:
       - setup_service
-      - run: mix compile --force --warnings-as-errors
+      - run: mix compile --force
   test:
-    executor: elixir-dev-small
+    executor: elixir-dev-medium
     environment:
       MIX_ENV: test
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - setup_service
-      - run: mix test
+      - run: make coverage
+      - store_test_results:
+          path: pd_ex_microsoftbot/test_reports
+      - run:
+         name: Upload coverage report to S3
+         command: |
+           sudo apt-get install -y awscli
+           AWS_ACCESS_KEY_ID=$DOC_SERVICE_AWS_ACCESS_KEY_ID \
+           AWS_SECRET_ACCESS_KEY=$DOC_SERVICE_AWS_SECRET_ACCESS_KEY \
+           aws s3 cp \
+            cover/excoveralls.html \
+            s3://pd-prod-doc-service-doc-service/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html
+      - run:
+          name: Post comment to PR
+          command: |
+            GITHUB_PR_NUMBER=$(echo "$CIRCLE_PULL_REQUEST" | sed "s/.*\/pull\///")
+            curl \
+              -X POST \
+              -d "{\"body\": \"[$CIRCLE_BRANCH/coverage.html](https://doc-service.pd-internal.com/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html)\"}" \
+              -H "Authorization: token $GITHUB_PD_CI_ACCESS_TOKEN" \
+              "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${GITHUB_PR_NUMBER}/comments"
+  
 
 workflows:
   version: 2

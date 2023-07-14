@@ -111,9 +111,7 @@ defmodule ExMicrosoftBot.TokenValidation do
   defp contains_valid_app_id_claim?(token, true) do
     # In case extra bot validation is required and app id isn't in claim then fail
     Logger.debug(
-      "ExMicrosoftBot.TokenValidation.contains_valid_app_id_claim? Failed. Token received #{
-        inspect(token)
-      }"
+      "ExMicrosoftBot.TokenValidation.contains_valid_app_id_claim? Failed. Token received #{inspect(token)}"
     )
 
     false

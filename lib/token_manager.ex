@@ -101,8 +101,13 @@ defmodule ExMicrosoftBot.TokenManager do
            expiry_in_seconds: Map.get(token_response, "expires_in")
          }}
 
-      {:error, _status_code, _body} = error ->
+      {:error, status_code, _body} = error ->
         Logger.error("Error refreshing token. Result: #{inspect(error)}")
+
+        StatsOwl.increment_failure("msbot_api.request.count",
+          tags: ["operation:refresh_token", "error_code:#{status_code}"]
+        )
+
         error
     end
   end
