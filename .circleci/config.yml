@@ -78,7 +78,7 @@ jobs:
            AWS_SECRET_ACCESS_KEY=$DOC_SERVICE_AWS_SECRET_ACCESS_KEY \
            aws s3 cp \
             cover/excoveralls.html \
-            s3://pd-prod-doc-service-doc-service/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html
+            s3://pd-doc-service-shrd/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html
       - run:
           name: Post comment to PR
           command: |
@@ -88,7 +88,7 @@ jobs:
               -d "{\"body\": \"[$CIRCLE_BRANCH/coverage.html](https://doc-service.pd-internal.com/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html)\"}" \
               -H "Authorization: token $GITHUB_PD_CI_ACCESS_TOKEN" \
               "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${GITHUB_PR_NUMBER}/comments"
-  
+
 
 workflows:
   version: 2
