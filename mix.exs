@@ -60,7 +60,7 @@ defmodule ExMicrosoftBot.Mixfile do
 
   defp deps do
     [
-      {:stats_owl, git: "git@github.com:PagerDuty/stats-owl.git", tag: "2.3.0"},
+      {:stats_owl, git: "git@github.com:PagerDuty/stats-owl.git", tag: "2.6.0"},
       {:excoveralls, "~>0.16"},
       {:httpoison, "~> 1.7"},
       {:poison, "~> 4.0"},
