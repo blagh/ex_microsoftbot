@@ -3,7 +3,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   This module provides the functions for conversations
   """
   import ExMicrosoftBot.Client,
-    only: [deserialize_response: 2, delete: 1, get: 1, post: 2, put: 2]
+    only: [deserialize_response: 2, delete: 2, get: 2, post: 3, put: 3]
 
   alias ExMicrosoftBot.Models
   alias ExMicrosoftBot.Client
@@ -20,7 +20,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def create_conversation(service_url, %Models.ConversationParameters{} = params) do
     service_url
     |> conversations_url()
-    |> post(params)
+    |> post(params, operation: "create_conversation")
     |> deserialize_response(&Models.ConversationResourceResponse.parse/1)
   end
 
@@ -49,7 +49,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def send_to_conversation(service_url, conversation_id, %Models.Activity{} = activity) do
     service_url
     |> conversations_url("/#{conversation_id}/activities")
-    |> post(activity)
+    |> post(activity, operation: "send_to_conversation")
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -82,7 +82,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def reply_to_activity(service_url, conversation_id, activity_id, %Models.Activity{} = activity) do
     service_url
     |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> post(activity)
+    |> post(activity, operation: "reply_to_activity")
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -109,7 +109,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
 
     service_url
     |> conversations_url(path)
-    |> get()
+    |> get(operation: "get_members")
     |> deserialize_response(&Models.ChannelAccount.parse/1)
   end
 
@@ -127,7 +127,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def get_member(service_url, conversation_id, member_id) do
     service_url
     |> conversations_url("/#{conversation_id}/members/#{member_id}")
-    |> get()
+    |> get(operation: "get_member")
     |> deserialize_response(&Models.ChannelAccount.parse/1)
   end
 
@@ -145,7 +145,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def upload_attachment(service_url, conversation_id, %Models.AttachmentData{} = attachment) do
     service_url
     |> conversations_url("/#{conversation_id}/attachments")
-    |> post(attachment)
+    |> post(attachment, operation: "upload_attachment")
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -174,7 +174,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def update_activity(service_url, conversation_id, %Models.Activity{id: activity_id} = activity) do
     service_url
     |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> put(activity)
+    |> put(activity, operation: "update_activity")
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -193,7 +193,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def delete_activity(service_url, conversation_id, activity_id) do
     service_url
     |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> delete()
+    |> delete(operation: "delete_activity")
     |> deserialize_response(nil)
   end
 

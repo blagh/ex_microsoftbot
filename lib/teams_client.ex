@@ -3,7 +3,7 @@ defmodule ExMicrosoftBot.Client.Teams do
   This module provides functions for Teams (from Microsoft Teams).
   """
 
-  import ExMicrosoftBot.Client, only: [deserialize_response: 2, get: 1]
+  import ExMicrosoftBot.Client, only: [deserialize_response: 2, get: 2]
 
   alias ExMicrosoftBot.{Client, Models}
 
@@ -17,7 +17,7 @@ defmodule ExMicrosoftBot.Client.Teams do
   def details(service_url, team_id) do
     service_url
     |> teams_url("/#{team_id}")
-    |> get()
+    |> get(operation: "details")
     |> deserialize_response(&Models.Team.parse/1)
   end
 
@@ -31,7 +31,7 @@ defmodule ExMicrosoftBot.Client.Teams do
   def channels(service_url, team_id) do
     service_url
     |> teams_url("/#{team_id}/conversations")
-    |> get()
+    |> get(operation: "channels")
     |> deserialize_response(&Models.Teams.ChannelsResponse.parse/1)
   end
 

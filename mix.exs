@@ -51,7 +51,7 @@ defmodule ExMicrosoftBot.Mixfile do
   end
 
   defp applications(env) when env in [:dev, :prod] do
-    [:logger, :jose, :tzdata, :timex, :poison, :stats_owl, :httpoison]
+    [:logger, :jose, :tzdata, :timex, :poison, :stats_owl, :httpoison, :collabops_toolbox]
   end
 
   defp applications(:test) do
@@ -60,7 +60,8 @@ defmodule ExMicrosoftBot.Mixfile do
 
   defp deps do
     [
-      {:stats_owl, git: "git@github.com:PagerDuty/stats-owl.git", tag: "2.6.0"},
+      {:collabops_toolbox, git: "git@github.com:PagerDuty/collabops-toolbox.git", tag: "0.33.3"},
+      {:stats_owl, git: "git@github.com:PagerDuty/stats-owl.git", tag: "2.6.0", override: true},
       {:excoveralls, "~>0.16"},
       {:httpoison, "~> 1.7"},
       {:poison, "~> 4.0"},
@@ -73,7 +74,7 @@ defmodule ExMicrosoftBot.Mixfile do
       {:bypass, "~> 2.1", only: :test},
       # Required by bypass, incompatible with OTP 22 since 2.8.0:
       {:cowboy, "~> 2.10.0", only: :test},
-      {:mimic, "~> 1.7", only: [:dev, :test]}
+      {:mimic, "~> 1.7", only: [:dev, :test], override: true}
     ]
   end
 end

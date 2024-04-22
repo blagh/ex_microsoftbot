@@ -7,7 +7,7 @@ defmodule ExMicrosoftBot.TokenManager do
 
   use ExMicrosoftBot.RefreshableAgent
 
-  import ExMicrosoftBot.Client, only: [opts: 0]
+  import ExMicrosoftBot.Client, only: [post: 4]
 
   alias ExMicrosoftBot.{Client, Models}
 
@@ -129,7 +129,7 @@ defmodule ExMicrosoftBot.TokenManager do
     headers = ["Content-Type": "application/x-www-form-urlencoded"]
 
     auth_api_endpoint
-    |> HTTPoison.post(body, headers, opts())
+    |> post(body, headers, operation: "get_token_from_service")
     |> Client.deserialize_response(&Poison.decode!(&1, as: %{}))
   end
 end

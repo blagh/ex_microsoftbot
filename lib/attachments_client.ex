@@ -3,7 +3,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   This module provides the functions to get information related to attachments.
   """
 
-  import ExMicrosoftBot.Client, only: [get: 1, deserialize_response: 2]
+  import ExMicrosoftBot.Client, only: [get: 2, deserialize_response: 2]
 
   alias ExMicrosoftBot.Models, as: Models
   alias ExMicrosoftBot.Client
@@ -17,7 +17,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   def get_attachment(service_url, attachment_id) do
     service_url
     |> attachments_url("/#{attachment_id}")
-    |> get()
+    |> get(operation: "get_attachment")
     |> deserialize_response(&Models.AttachmentInfo.parse/1)
   end
 
@@ -34,7 +34,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   def get_attachment_view(service_url, attachment_id, view_id) do
     service_url
     |> attachments_url("/#{attachment_id}/views/#{view_id}")
-    |> get()
+    |> get(operation: "get_attachment_view")
     |> deserialize_response(& &1)
   end
 
