@@ -18,9 +18,13 @@ defmodule ExMicrosoftBot.Client.Conversations do
           params :: Models.ConversationParameters.t()
         ) :: {:ok, Models.ConversationResourceResponse.t()} | Client.error_type()
   def create_conversation(service_url, %Models.ConversationParameters{} = params) do
+    options =
+      default_timeout_options()
+      |> Keyword.merge(operation: "create_conversation")
+
     service_url
     |> conversations_url()
-    |> post(params, operation: "create_conversation")
+    |> post(params, options)
     |> deserialize_response(&Models.ConversationResourceResponse.parse/1)
   end
 
@@ -47,9 +51,13 @@ defmodule ExMicrosoftBot.Client.Conversations do
           activity :: Models.Activity.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def send_to_conversation(service_url, conversation_id, %Models.Activity{} = activity) do
+    options =
+      default_timeout_options()
+      |> Keyword.merge(operation: "send_to_conversation")
+
     service_url
     |> conversations_url("/#{conversation_id}/activities")
-    |> post(activity, operation: "send_to_conversation")
+    |> post(activity, options)
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -172,9 +180,13 @@ defmodule ExMicrosoftBot.Client.Conversations do
           activity :: Models.Activity.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def update_activity(service_url, conversation_id, %Models.Activity{id: activity_id} = activity) do
+    options =
+      default_timeout_options()
+      |> Keyword.merge(operation: "update_activity")
+
     service_url
     |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> put(activity, operation: "update_activity")
+    |> put(activity, options)
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -204,4 +216,11 @@ defmodule ExMicrosoftBot.Client.Conversations do
 
   defp conversations_url(service_url, path),
     do: conversations_url(service_url) <> path
+
+  defp default_timeout_options do
+    [
+      timeout: 10_000,
+      recv_timeout: 10_000
+    ]
+  end
 end
