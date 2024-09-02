@@ -72,9 +72,21 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
           ],
           "entities" => [
             %{
-              "type" => "type",
-              "name" => "name",
-              "supportsDisplay" => false
+              "mentioned" => %{
+                "id" => "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
+                "name" => "Bot"
+              },
+              "text" => "<at>Bot</at>",
+              "type" => "mention"
+            },
+            %{
+              "mentioned" => %{
+                "id" =>
+                  "29:1LnoI0QitUZxiOvOm1QYzuVuUGrpUiTF79TMwkeS1MftPFLKxAc-wpZ_14rQRGX30LShBpgiPvKn-MLaIBycwvg",
+                "name" => "User Name"
+              },
+              "text" => "<at>User Name</at>",
+              "type" => "mention"
             }
           ],
           "channelData" => %{
@@ -162,9 +174,21 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
 
       assert entities == [
                %ExMicrosoftBot.Models.Entity{
-                 type: "type",
-                 name: "name",
-                 supportsDisplay: false
+                 type: "mention",
+                 text: "<at>Bot</at>",
+                 mentioned: %ExMicrosoftBot.Models.Entity.Mentioned{
+                   id: "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
+                   name: "Bot"
+                 }
+               },
+               %ExMicrosoftBot.Models.Entity{
+                 type: "mention",
+                 text: "<at>User Name</at>",
+                 mentioned: %ExMicrosoftBot.Models.Entity.Mentioned{
+                   id:
+                     "29:1LnoI0QitUZxiOvOm1QYzuVuUGrpUiTF79TMwkeS1MftPFLKxAc-wpZ_14rQRGX30LShBpgiPvKn-MLaIBycwvg",
+                   name: "User Name"
+                 }
                }
              ]
 

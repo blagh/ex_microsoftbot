@@ -4,16 +4,31 @@ defmodule ExMicrosoftBot.Models.Entity do
   """
 
   @derive [Poison.Encoder]
-  defstruct [:type, :name, :supportsDisplay]
+  defstruct [:type, :text, :mentioned]
 
-  @type t :: %ExMicrosoftBot.Models.Entity{
+  @type t :: %__MODULE__{
           type: String.t(),
-          name: String.t(),
-          supportsDisplay: boolean
+          text: String.t(),
+          mentioned: __MODULE__.Mentioned.t()
         }
 
-  @doc false
+  defmodule __MODULE__.Mentioned do
+    @derive [Poison.Encoder]
+    defstruct [:id, :name]
+
+    @type t :: %__MODULE__{
+            id: String.t(),
+            name: String.t()
+          }
+    def decoding_map(), do: %__MODULE__{}
+  end
+
+  @doc """
+  Decoding map for the entity
+  """
   def decoding_map() do
-    %ExMicrosoftBot.Models.Entity{}
+    %__MODULE__{
+      mentioned: %__MODULE__.Mentioned{}
+    }
   end
 end
