@@ -22,9 +22,6 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
     {:ok, Poison.Decode.transform(param, %{as: decoding_map()})}
   end
 
-  @doc """
-  Decode a string into `ExMicrosoftBot.Models.AttachmentInfo`
-  """
   @spec parse(String.t()) :: ExMicrosoftBot.Models.AttachmentInfo.t()
   def parse(param) when is_binary(param) do
     Poison.decode!(param, as: decoding_map())

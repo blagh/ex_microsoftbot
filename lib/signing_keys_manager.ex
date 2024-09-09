@@ -5,6 +5,13 @@ defmodule ExMicrosoftBot.SigningKeysManager do
 
   # Public API
 
+  def child_spec(args) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, args}
+    }
+  end
+
   @doc """
   Get the token that can be used to authorize calls to Microsoft Bot Framework
   """

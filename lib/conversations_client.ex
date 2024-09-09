@@ -170,10 +170,6 @@ defmodule ExMicrosoftBot.Client.Conversations do
       when is_nil(id),
       do: update_activity(service_url, conversation_id, Map.put(activity, :id, activity_id))
 
-  @doc """
-  Updates an existing activity. The activity struct is expected to have an ID.
-  @see [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#update-activity)
-  """
   @spec update_activity(
           service_url :: String.t(),
           conversation_id :: String.t(),

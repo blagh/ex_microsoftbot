@@ -14,16 +14,12 @@ defmodule ExMicrosoftBot.Client do
   pre-authorized API calls, for example for fetching assets or calling new
   endpoints that this library hasn't implemented yet.
   """
-  use Toolbox.Monitoring.HttpClient, target_system: "ms_bot_framework"
 
   alias ExMicrosoftBot.TokenManager
-  alias Toolbox.Monitoring.HttpRequest
 
   require Logger
 
   @type error_type :: {:error, integer, String.t()}
-
-  @http_client_opts Application.get_env(:ex_microsoftbot, :http_client_opts, [])
 
   @doc """
   GETs the given URI with an authorized request & standard options, logging the
@@ -31,15 +27,7 @@ defmodule ExMicrosoftBot.Client do
   """
   @spec get(url :: String.t(), extra_opts :: keyword()) :: HTTPoison.Response.t()
   def get(url, extra_opts \\ []) do
-    %{
-      operation: Keyword.get(extra_opts, :operation, "unknown"),
-      method: :get,
-      parse_body_func: nil
-    }
-    |> HttpRequest.new()
-    |> instrument(fn ->
-      HTTPoison.get(url, authed_headers(url), opts(extra_opts))
-    end)
+    HTTPoison.get(url, authed_headers(url), opts(extra_opts))
     |> tap(&Logger.debug("GET #{inspect(url)}: #{inspect(&1)}"))
   end
 
@@ -49,15 +37,7 @@ defmodule ExMicrosoftBot.Client do
   """
   @spec delete(url :: String.t(), extra_opts :: keyword()) :: HTTPoison.Response.t()
   def delete(url, extra_opts \\ []) do
-    %{
-      operation: Keyword.get(extra_opts, :operation, "unknown"),
-      method: :delete,
-      parse_body_func: nil
-    }
-    |> HttpRequest.new()
-    |> instrument(fn ->
-      HTTPoison.delete(url, authed_headers(url), opts(extra_opts))
-    end)
+    HTTPoison.delete(url, authed_headers(url), opts(extra_opts))
     |> tap(&Logger.debug("DELETE #{inspect(url)}: #{inspect(&1)}"))
   end
 
@@ -73,15 +53,7 @@ defmodule ExMicrosoftBot.Client do
   def post(url, body, extra_opts \\ [])
 
   def post(url, body, extra_opts) when is_binary(body) do
-    %{
-      operation: Keyword.get(extra_opts, :operation, "unknown"),
-      method: :post,
-      parse_body_func: nil
-    }
-    |> HttpRequest.new()
-    |> instrument(fn ->
-      HTTPoison.post(url, body, authed_headers(url), opts(extra_opts))
-    end)
+    HTTPoison.post(url, body, authed_headers(url), opts(extra_opts))
     |> tap(&Logger.debug("POST #{inspect(url)}: #{inspect(&1)}", body: body))
   end
 
@@ -92,15 +64,7 @@ defmodule ExMicrosoftBot.Client do
   end
 
   def post(url, body, headers, extra_opts) when is_binary(body) do
-    %{
-      operation: Keyword.get(extra_opts, :operation, "unknown"),
-      method: :post,
-      parse_body_func: nil
-    }
-    |> HttpRequest.new()
-    |> instrument(fn ->
-      HTTPoison.post(url, body, headers, opts(extra_opts))
-    end)
+    HTTPoison.post(url, body, headers, opts(extra_opts))
     |> tap(&Logger.debug("POST #{inspect(url)}: #{inspect(&1)}", body: body))
   end
 
@@ -116,15 +80,7 @@ defmodule ExMicrosoftBot.Client do
   def put(url, body, extra_opts \\ [])
 
   def put(url, body, extra_opts) when is_binary(body) do
-    %{
-      operation: Keyword.get(extra_opts, :operation, "unknown"),
-      method: :put,
-      parse_body_func: nil
-    }
-    |> HttpRequest.new()
-    |> instrument(fn ->
-      HTTPoison.put(url, body, authed_headers(url), opts(extra_opts))
-    end)
+    HTTPoison.put(url, body, authed_headers(url), opts(extra_opts))
     |> tap(&Logger.debug("PUT #{inspect(url)}: #{inspect(&1)}", body: body))
   end
 
@@ -195,7 +151,7 @@ defmodule ExMicrosoftBot.Client do
   """
   @spec opts(keyword :: keyword()) :: keyword()
   def opts(extra \\ []),
-    do: Keyword.merge(@http_client_opts, extra)
+    do: Keyword.merge(http_client_opts(), extra)
 
   # Private
 
@@ -235,4 +191,6 @@ defmodule ExMicrosoftBot.Client do
       |> List.to_tuple()
 
   defp denullify_request_body(value), do: value
+
+  defp http_client_opts, do: Application.get_env(:ex_microsoftbot, :http_client_opts, [])
 end

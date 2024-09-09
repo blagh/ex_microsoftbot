@@ -16,8 +16,8 @@ defmodule ExMicrosoftBot do
 
   def start(_type, _args) do
     children = [
-      worker(ExMicrosoftBot.TokenManager, [get_auth_data()]),
-      worker(ExMicrosoftBot.SigningKeysManager, [])
+      {ExMicrosoftBot.TokenManager, [get_auth_data()]},
+      {ExMicrosoftBot.SigningKeysManager, []}
     ]
 
     opts = [strategy: :one_for_one, name: ExMicrosoftBot.Supervisor]

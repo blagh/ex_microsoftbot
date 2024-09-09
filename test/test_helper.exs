@@ -1,4 +1,6 @@
 Application.ensure_all_started(:mimic)
+Code.put_compiler_option(:warnings_as_errors, true)
+ExUnit.start(timeout: 2000)
 
 [
   Application,
@@ -6,5 +8,3 @@ Application.ensure_all_started(:mimic)
   StatsOwl
 ]
 |> Enum.each(&Mimic.copy/1)
-
-ExUnit.start()

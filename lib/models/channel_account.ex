@@ -36,17 +36,11 @@ defmodule ExMicrosoftBot.Models.ChannelAccount do
     {:ok, Poison.Decode.transform(param, %{as: decoding_map()})}
   end
 
-  @doc """
-  Decode a list of maps into a list of `ExMicrosoftBot.Models.ChannelAccount`
-  """
   @spec parse(list) :: {:ok, [ExMicrosoftBot.Models.ChannelAccount.t()]}
   def parse(param) when is_list(param) do
     {:ok, Poison.Decode.transform(param, %{as: [decoding_map()]})}
   end
 
-  @doc """
-  Decode a string into `ExMicrosoftBot.Models.ChannelAccount`
-  """
   @spec parse(String.t()) :: ExMicrosoftBot.Models.ChannelAccount.t()
   def parse(param) when is_binary(param) do
     elem(parse(Poison.decode!(param)), 1)

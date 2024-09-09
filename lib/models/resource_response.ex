@@ -18,9 +18,6 @@ defmodule ExMicrosoftBot.Models.ResourceResponse do
     {:ok, Poison.Decode.transform(param, %{as: decoding_map()})}
   end
 
-  @doc """
-  Decode a string into `ExMicrosoftBot.Models.ResourceResponse`
-  """
   @spec parse(String.t()) :: ExMicrosoftBot.Models.ResourceResponse.t()
   def parse(param) when is_binary(param) do
     Poison.decode!(param, as: decoding_map())

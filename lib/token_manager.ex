@@ -12,7 +12,13 @@ defmodule ExMicrosoftBot.TokenManager do
   alias ExMicrosoftBot.{Client, Models}
 
   @auth_api_endpoint "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token"
-  @scope Application.get_env(:ex_microsoftbot, :scope, "https://api.botframework.com/.default")
+
+  def child_spec(args) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, args}
+    }
+  end
 
   # Public API
 
@@ -123,7 +129,7 @@ defmodule ExMicrosoftBot.TokenManager do
         grant_type: "client_credentials",
         client_id: app_id,
         client_secret: app_password,
-        scope: @scope
+        scope: scope()
       })
 
     headers = ["Content-Type": "application/x-www-form-urlencoded"]
@@ -132,4 +138,7 @@ defmodule ExMicrosoftBot.TokenManager do
     |> post(body, headers, operation: "get_token_from_service")
     |> Client.deserialize_response(&Poison.decode!(&1, as: %{}))
   end
+
+  defp scope,
+    do: Application.get_env(:ex_microsoftbot, :scope, "https://api.botframework.com/.default")
 end

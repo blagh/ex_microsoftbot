@@ -6,11 +6,9 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
   alias ExMicrosoftBot.Models.{Activity, ChannelAccount, ResourceResponse}
   alias ExMicrosoftBot.Client.Conversations
 
-  @bypass_port Application.fetch_env!(:ex_microsoftbot, Bypass) |> Keyword.fetch!(:port)
-
   describe "send_to_conversation/3" do
     setup do
-      bypass = Bypass.open(port: @bypass_port)
+      bypass = Bypass.open(port: BypassHelper.port())
       {:ok, bypass: bypass}
     end
 
@@ -29,7 +27,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
       end)
 
       assert Conversations.send_to_conversation(
-               "http://localhost:#{@bypass_port}",
+               "http://localhost:#{BypassHelper.port()}",
                42,
                %Activity{
                  type: "text",
@@ -45,7 +43,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
 
   describe "update_activity/3" do
     setup do
-      bypass = Bypass.open(port: @bypass_port)
+      bypass = Bypass.open(port: BypassHelper.port())
       {:ok, bypass: bypass}
     end
 
@@ -64,7 +62,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
       end)
 
       assert Conversations.update_activity(
-               "http://localhost:#{@bypass_port}",
+               "http://localhost:#{BypassHelper.port()}",
                42,
                %Activity{
                  id: "12345",
@@ -81,7 +79,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
 
   describe "delete_activity/3" do
     setup do
-      bypass = Bypass.open(port: @bypass_port)
+      bypass = Bypass.open(port: BypassHelper.port())
       {:ok, bypass: bypass}
     end
 
@@ -97,7 +95,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
       end)
 
       assert Conversations.delete_activity(
-               "http://localhost:#{@bypass_port}",
+               "http://localhost:#{BypassHelper.port()}",
                42,
                %Activity{
                  id: "12345",

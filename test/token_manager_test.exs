@@ -7,8 +7,6 @@ defmodule ExMicrosoftBotTest.TokenManager do
   alias ExMicrosoftBot.Models.AuthData
   alias ExMicrosoftBot.TokenManager
 
-  @bypass_port Application.fetch_env!(:ex_microsoftbot, Bypass) |> Keyword.fetch!(:port)
-
   setup do
     auth_data = %AuthData{app_id: "BOT_APP_ID", app_password: "BOT_APP_PASSWORD"}
 
@@ -18,7 +16,7 @@ defmodule ExMicrosoftBotTest.TokenManager do
           false
 
         :auth_api_endpoint ->
-          "http://localhost:#{@bypass_port}/botframework.com/oauth2/v2.0/token"
+          "http://localhost:#{BypassHelper.port()}/botframework.com/oauth2/v2.0/token"
 
         _ ->
           nil
@@ -31,7 +29,7 @@ defmodule ExMicrosoftBotTest.TokenManager do
       }
     end)
 
-    bypass = Bypass.open(port: @bypass_port)
+    bypass = Bypass.open(port: BypassHelper.port())
 
     {:ok, bypass: bypass, auth_data: auth_data}
   end

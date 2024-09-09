@@ -9,8 +9,6 @@ defmodule ExMicrosoftBot.RefreshableAgent do
       @behaviour ExMicrosoftBot.RefreshableAgent
       use GenServer
 
-      # Init
-
       def init(args) do
         state =
           args
