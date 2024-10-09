@@ -1,10 +1,11 @@
 defmodule ExMicrosoftBot.Client.Conversations do
   @moduledoc """
-  This module provides the functions for conversations
+  This module provides the functions for conversations in a retryable manner
   """
   import ExMicrosoftBot.Client,
     only: [deserialize_response: 2, delete: 2, get: 2, post: 3, put: 3]
 
+  alias ExMicrosoftBot.Retry.RetryTask
   alias ExMicrosoftBot.Models
   alias ExMicrosoftBot.Client
 
@@ -18,13 +19,20 @@ defmodule ExMicrosoftBot.Client.Conversations do
           params :: Models.ConversationParameters.t()
         ) :: {:ok, Models.ConversationResourceResponse.t()} | Client.error_type()
   def create_conversation(service_url, %Models.ConversationParameters{} = params) do
+    operation = "create_conversation"
+
     options =
       default_timeout_options()
-      |> Keyword.merge(operation: "create_conversation")
+      |> Keyword.merge(operation: operation)
 
-    service_url
-    |> conversations_url()
-    |> post(params, options)
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url()
+        |> post(params, options)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ConversationResourceResponse.parse/1)
   end
 
@@ -51,13 +59,20 @@ defmodule ExMicrosoftBot.Client.Conversations do
           activity :: Models.Activity.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def send_to_conversation(service_url, conversation_id, %Models.Activity{} = activity) do
+    operation = "send_to_conversation"
+
     options =
       default_timeout_options()
-      |> Keyword.merge(operation: "send_to_conversation")
+      |> Keyword.merge(operation: operation)
 
-    service_url
-    |> conversations_url("/#{conversation_id}/activities")
-    |> post(activity, options)
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/activities")
+        |> post(activity, options)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -88,9 +103,16 @@ defmodule ExMicrosoftBot.Client.Conversations do
           activity :: Models.Activity.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def reply_to_activity(service_url, conversation_id, activity_id, %Models.Activity{} = activity) do
-    service_url
-    |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> post(activity, operation: "reply_to_activity")
+    operation = "reply_to_activity"
+
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
+        |> post(activity, operation: operation)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -115,9 +137,16 @@ defmodule ExMicrosoftBot.Client.Conversations do
         do: "/#{conversation_id}/activities/#{activity_id}/members",
         else: "/#{conversation_id}/members"
 
-    service_url
-    |> conversations_url(path)
-    |> get(operation: "get_members")
+    operation = "get_members"
+
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url(path)
+        |> get(operation: operation)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ChannelAccount.parse/1)
   end
 
@@ -133,9 +162,16 @@ defmodule ExMicrosoftBot.Client.Conversations do
           member_id :: String.t()
         ) :: {:ok, Models.ChannelAccount.t()} | Client.error_type()
   def get_member(service_url, conversation_id, member_id) do
-    service_url
-    |> conversations_url("/#{conversation_id}/members/#{member_id}")
-    |> get(operation: "get_member")
+    operation = "get_member"
+
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/members/#{member_id}")
+        |> get(operation: operation)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ChannelAccount.parse/1)
   end
 
@@ -151,9 +187,16 @@ defmodule ExMicrosoftBot.Client.Conversations do
           attachment :: Models.AttachmentData.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def upload_attachment(service_url, conversation_id, %Models.AttachmentData{} = attachment) do
-    service_url
-    |> conversations_url("/#{conversation_id}/attachments")
-    |> post(attachment, operation: "upload_attachment")
+    operation = "upload_attachment"
+
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/attachments")
+        |> post(attachment, operation: operation)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -176,13 +219,20 @@ defmodule ExMicrosoftBot.Client.Conversations do
           activity :: Models.Activity.t()
         ) :: {:ok, Models.ResourceResponse.t()} | Client.error_type()
   def update_activity(service_url, conversation_id, %Models.Activity{id: activity_id} = activity) do
+    operation = "update_activity"
+
     options =
       default_timeout_options()
-      |> Keyword.merge(operation: "update_activity")
+      |> Keyword.merge(operation: operation)
 
-    service_url
-    |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> put(activity, options)
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
+        |> put(activity, options)
+      end,
+      operation
+    )
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -199,9 +249,16 @@ defmodule ExMicrosoftBot.Client.Conversations do
     do: delete_activity(service_url, conversation_id, activity_id)
 
   def delete_activity(service_url, conversation_id, activity_id) do
-    service_url
-    |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
-    |> delete(operation: "delete_activity")
+    operation = "delete_activity"
+
+    RetryTask.start(
+      fn ->
+        service_url
+        |> conversations_url("/#{conversation_id}/activities/#{activity_id}")
+        |> delete(operation: operation)
+      end,
+      operation
+    )
     |> deserialize_response(nil)
   end
 
