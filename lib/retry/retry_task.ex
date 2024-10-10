@@ -30,12 +30,12 @@ defmodule ExMicrosoftBot.Retry.RetryTask do
   alias ExMicrosoftBot.Retry.RetryTaskMeta, as: RetryMeta
   require Logger
 
-  @hundreth_of_second 100
+  @two_hundreth_of_second 200
 
   @default_retry_meta %RetryMeta{
     current_retry: 0,
-    max_retries: Application.compile_env(:ex_microsoftbot, :retries_count, 5),
-    wait_time: Application.compile_env(:ex_microsoftbot, :wait_time, @hundreth_of_second)
+    max_retries: Application.compile_env(:ex_microsoftbot, :retries_count, 3),
+    wait_time: Application.compile_env(:ex_microsoftbot, :wait_time, @two_hundreth_of_second)
   }
 
   # The header name returned when the server sends a 429 status code
