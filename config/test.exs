@@ -9,8 +9,6 @@ config :ex_microsoftbot,
   issuer_claim: "https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/",
   audience_claim: "BOT_APP_ID",
   using_bot_emulator: true,
-  disable_token_validation: true,
-  wait_time: 0,
-  retries_count: 3
+  disable_token_validation: true
 
 config :ex_microsoftbot, Bypass, port: 5000
