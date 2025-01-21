@@ -77,7 +77,7 @@ defmodule ExMicrosoftBot.Mixfile do
       {:excoveralls, "~> 0.16.1", only: :test},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_unit_notifier, "~> 1.2", only: [:dev, :test], runtime: false},
-      {:httpoison, "~> 1.7"},
+      {:httpoison, "~> 2.0"},
       {:poison, "~> 4.0"},
       {:jose, "~> 1.7"},
       {:timex, "~> 3.0"},
