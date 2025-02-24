@@ -16,7 +16,16 @@ defmodule ExMicrosoftBot.SigningKeysManager do
   Get the token that can be used to authorize calls to Microsoft Bot Framework
   """
   def get_keys() do
-    get_state()
+    case get_state() do
+      {:ok, _keys} = result ->
+        result
+
+      _error ->
+        # If we have a cached error, try to get fresh keys
+        force_refresh_keys()
+        # Return the new state (which might still be an error, but at least we tried)
+        get_state()
+    end
   end
 
   def force_refresh_keys() do

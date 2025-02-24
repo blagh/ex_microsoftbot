@@ -144,7 +144,7 @@ defmodule ExMicrosoftBot.TokenValidation do
         |> length
         |> Kernel.>(0)
 
-      {:error, _} ->
+      _error ->
         false
     end
   end
