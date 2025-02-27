@@ -4,11 +4,14 @@ defmodule ExMicrosoftBot.Models.Entity do
   """
 
   @derive [Poison.Encoder]
-  defstruct [:type, :text, :mentioned]
+  defstruct [:type, :text, :mentioned, :country, :locale, :timezone]
 
   @type t :: %__MODULE__{
           type: String.t(),
           text: String.t(),
+          country: String.t(),
+          locale: String.t(),
+          timezone: String.t(),
           mentioned: __MODULE__.Mentioned.t()
         }
 
