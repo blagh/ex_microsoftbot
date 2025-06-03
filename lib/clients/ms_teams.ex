@@ -1,6 +1,6 @@
 defmodule ExMicrosoftBot.Client.MsTeams do
   @moduledoc """
-  This module provides the Microsoft Teams specific functions
+  This module provides the Microsoft Teams specific functions.
   """
 
   import ExMicrosoftBot.Client, only: [get: 2, deserialize_response: 2]

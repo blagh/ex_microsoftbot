@@ -3,8 +3,5 @@
   "extends": [
     "github>PagerDuty/renovate-base"
   ],
-  "enabledManagers": [
-    "terraform"
-  ],
   "dependencyDashboard": true
 }
