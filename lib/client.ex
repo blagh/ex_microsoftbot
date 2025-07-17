@@ -15,7 +15,9 @@ defmodule ExMicrosoftBot.Client do
   endpoints that this library hasn't implemented yet.
   """
 
+  import ExMicrosoftBot.Monitoring.HTTPClient
   alias ExMicrosoftBot.TokenManager
+  alias ExMicrosoftBot.Monitoring.HttpRequest
 
   require Logger
 
@@ -27,8 +29,15 @@ defmodule ExMicrosoftBot.Client do
   """
   @spec get(url :: String.t(), extra_opts :: keyword()) :: HTTPoison.Response.t()
   def get(url, extra_opts \\ []) do
-    HTTPoison.get(url, authed_headers(url), opts(extra_opts))
-    |> tap(&Logger.debug("GET #{inspect(url)}: #{inspect(&1)}"))
+    %{
+      operation: extra_opts[:operation] || url,
+      method: :get,
+      parse_body_func: nil
+    }
+    |> HttpRequest.new()
+    |> instrument(fn ->
+      HTTPoison.get(url, authed_headers(url), opts(extra_opts))
+    end)
   end
 
   @doc """
@@ -37,8 +46,15 @@ defmodule ExMicrosoftBot.Client do
   """
   @spec delete(url :: String.t(), extra_opts :: keyword()) :: HTTPoison.Response.t()
   def delete(url, extra_opts \\ []) do
-    HTTPoison.delete(url, authed_headers(url), opts(extra_opts))
-    |> tap(&Logger.debug("DELETE #{inspect(url)}: #{inspect(&1)}"))
+    %{
+      operation: extra_opts[:operation] || url,
+      method: :delete,
+      parse_body_func: nil
+    }
+    |> HttpRequest.new()
+    |> instrument(fn ->
+      HTTPoison.delete(url, authed_headers(url), opts(extra_opts))
+    end)
   end
 
   @doc """
@@ -53,8 +69,15 @@ defmodule ExMicrosoftBot.Client do
   def post(url, body, extra_opts \\ [])
 
   def post(url, body, extra_opts) when is_binary(body) do
-    HTTPoison.post(url, body, authed_headers(url), opts(extra_opts))
-    |> tap(&Logger.debug("POST #{inspect(url)}: #{inspect(&1)}", body: body))
+    %{
+      operation: extra_opts[:operation] || url,
+      method: :post,
+      parse_body_func: nil
+    }
+    |> HttpRequest.new()
+    |> instrument(fn ->
+      HTTPoison.post(url, body, authed_headers(url), opts(extra_opts))
+    end)
   end
 
   def post(url, body, extra_opts) when is_map(body) do
@@ -64,8 +87,15 @@ defmodule ExMicrosoftBot.Client do
   end
 
   def post(url, body, headers, extra_opts) when is_binary(body) do
-    HTTPoison.post(url, body, headers, opts(extra_opts))
-    |> tap(&Logger.debug("POST #{inspect(url)}: #{inspect(&1)}", body: body))
+    %{
+      operation: extra_opts[:operation] || url,
+      method: :post,
+      parse_body_func: nil
+    }
+    |> HttpRequest.new()
+    |> instrument(fn ->
+      HTTPoison.post(url, body, headers, opts(extra_opts))
+    end)
   end
 
   @doc """
@@ -80,8 +110,15 @@ defmodule ExMicrosoftBot.Client do
   def put(url, body, extra_opts \\ [])
 
   def put(url, body, extra_opts) when is_binary(body) do
-    HTTPoison.put(url, body, authed_headers(url), opts(extra_opts))
-    |> tap(&Logger.debug("PUT #{inspect(url)}: #{inspect(&1)}", body: body))
+    %{
+      operation: extra_opts[:operation] || url,
+      method: :put,
+      parse_body_func: nil
+    }
+    |> HttpRequest.new()
+    |> instrument(fn ->
+      HTTPoison.put(url, body, authed_headers(url), opts(extra_opts))
+    end)
   end
 
   def put(url, body, extra_opts) when is_map(body) do
