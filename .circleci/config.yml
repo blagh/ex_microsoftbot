@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   ecr: pagerduty/ecr@1.0.0
   git: pagerduty/git@0.1.0        # https://circleci.com/orbs/registry/orb/pagerduty/git
-  elixir: pagerduty/elixir@1.1.0  # https://circleci.com/orbs/registry/orb/pagerduty/elixir
+  elixir: pagerduty/elixir@3.3.0  # https://circleci.com/orbs/registry/orb/pagerduty/elixir
 
 working_dir: &working_dir
   working_directory: /tmp/workspace
@@ -41,7 +41,7 @@ commands:
       - checkout
       - git/rebase_on_main
       - elixir/install:
-          asdf_version: "v0.11.1"
+          asdf_version: "v0.18.0"
       - elixir/mix_get_and_compile_deps
 
 jobs:
@@ -88,7 +88,6 @@ jobs:
               -d "{\"body\": \"[$CIRCLE_BRANCH/coverage.html](https://doc-service.pd-internal.com/pd_ex_microsoftbot/$CIRCLE_BRANCH/coverage.html)\"}" \
               -H "Authorization: token $GITHUB_PD_CI_ACCESS_TOKEN" \
               "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${GITHUB_PR_NUMBER}/comments"
-
 
 workflows:
   version: 2
