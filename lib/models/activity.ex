@@ -87,6 +87,9 @@ defmodule ExMicrosoftBot.Models.Activity do
           replyToId: String.t(),
           code: String.t(),
           inputHint: String.t(),
+          value: json_object,
+          valueType: String.t(),
+          properties: json_object,
           # 'normal', 'notification', or 'expectReplies'
           deliveryMode: String.t(),
           expiration: String.t(),
@@ -95,9 +98,6 @@ defmodule ExMicrosoftBot.Models.Activity do
           label: String.t(),
           listenFor: [String.t()],
           callerId: String.t(),
-          properties: json_object,
-          value: json_object,
-          valueType: String.t(),
           name: String.t()
         }
 
