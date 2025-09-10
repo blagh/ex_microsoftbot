@@ -79,11 +79,6 @@ defmodule ExMicrosoftBot.Models.Activity do
           suggestedActions: [ExMicrosoftBot.Models.SuggestedAction.t()],
           channelData: map ,
           action: String.t(),
-          value: json_object,
-          valueType: String.t(),
-          properties: json_object,
-          semanticAction: ExMicrosoftBot.Models.SemanticAction.t(),
-          textFormat: String.t(),
           attachmentLayout: String.t(),
           replyToId: String.t(),
           # 'normal', 'notification', or 'expectReplies'
@@ -97,8 +92,12 @@ defmodule ExMicrosoftBot.Models.Activity do
           callerId: String.t(),
           localTimestamp: String.t(),
           localTimezone: String.t(),
-          code: String.t(),
-          name: String.t()
+          name: String.t(),
+          properties: json_object,
+          semanticAction: ExMicrosoftBot.Models.SemanticAction.t(),
+          textFormat: String.t(),
+          value: json_object,
+          valueType: String.t()
         }
 
   @doc """
