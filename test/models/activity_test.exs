@@ -148,14 +148,16 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
           ],
           "semanticAction" => %{
             "id" => "action:id",
-            "entities" => [            %{
-              "mentioned" => %{
-                "id" => "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
-                "name" => "Bot"
-              },
-              "text" => "<at>Bot</at>",
-              "type" => "mention"
-            }],
+            "entities" => [
+              %{
+                "mentioned" => %{
+                  "id" => "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
+                  "name" => "Bot"
+                },
+                "text" => "<at>Bot</at>",
+                "type" => "mention"
+              }
+            ],
             "state" => "starting"
           },
           "deliveryMode" => "normal",
@@ -304,13 +306,13 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
                id: "action:id",
                entities: [
                  %ExMicrosoftBot.Models.Entity{
-                  type: "mention",
-                  text: "<at>Bot</at>",
-                  mentioned: %ExMicrosoftBot.Models.Entity.Mentioned{
-                    id: "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
-                    name: "Bot"
-                  }
-               },
+                   type: "mention",
+                   text: "<at>Bot</at>",
+                   mentioned: %ExMicrosoftBot.Models.Entity.Mentioned{
+                     id: "28:f2ab3d75-7b12-4ceb-a730-1d45e461c9bf",
+                     name: "Bot"
+                   }
+                 }
                ],
                state: "starting"
              }

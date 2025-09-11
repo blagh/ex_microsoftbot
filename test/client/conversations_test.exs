@@ -19,6 +19,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
         assert conn |> get_req_header("authorization") |> List.first() == "Bearer"
 
         {:ok, body, conn} = read_body(conn)
+
         assert body ==
                  "{\"type\":\"text\",\"text\":\"ohai\",\"recipient\":{\"name\":\"Jonas\",\"id\":55}}"
 
@@ -53,6 +54,7 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
         assert conn |> get_req_header("authorization") |> List.first() == "Bearer"
 
         {:ok, body, conn} = read_body(conn)
+
         assert body ==
                  "{\"type\":\"text\",\"text\":\"ohai\",\"recipient\":{\"name\":\"Jonas\",\"id\":55},\"id\":\"12345\"}"
 
